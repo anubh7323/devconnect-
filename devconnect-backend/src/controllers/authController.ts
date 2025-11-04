@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import User from '../models/User';
 
 export const register = async (req: Request, res: Response) => {
@@ -26,8 +26,8 @@ export const login = async (req: Request, res: Response) => {
   res.json({ token, user: { id: user.id, username: user.username, email: user.email } });
 };
 
-const createToken = (id: string) => {
+const createToken = (id: string): string => {
   const secret = process.env.JWT_SECRET || 'secret';
   const expiresIn = process.env.JWT_EXPIRES_IN || '7d';
-  return jwt.sign({ id }, secret, { expiresIn });
+  return jwt.sign({ id }, secret, { expiresIn } as SignOptions);
 };

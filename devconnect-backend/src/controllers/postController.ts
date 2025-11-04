@@ -40,6 +40,6 @@ export const deletePost = async (req: AuthRequest, res: Response) => {
   const post = await Post.findById(req.params.id);
   if (!post) return res.status(404).json({ message: 'Not found' });
   if (post.author.toString() !== req.userId) return res.status(403).json({ message: 'Forbidden' });
-  await post.remove();
+  await post.deleteOne();
   res.json({ message: 'Deleted' });
 };
